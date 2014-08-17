@@ -1,0 +1,14 @@
+{
+    "require": {
+        "magento/core": "1.9.0.1"
+    },
+    "repositories": [
+        {
+            "type": "composer",
+            "url": "http://packages.firegento.com"
+        }
+    ],
+    "extra":{
+        "magento-root-dir": "htdocs/"
+    }
+}
