@@ -8,11 +8,15 @@ with sample data. THIS IS NOT RECOMMENDED PRODUCTION INSTALLATION
 CONFIGURATION SETTINGS! For example, the MySQL database has no
 password.
 
-To run use
+To run using a prebuild image use
 
     docker run -d -p 80:80 alankent/docker-magento-ce
 
 Replace "80:80" with "8888:80" if you wish to run on port 8888 instead.
+
+Otherwise build the supplied Dockerfile and run that. The build will
+take up to 10 minutes to complete as it includes downloading the CE 
+distribution and sample data from the Magento download site.
 
 Connect to your VM using http://<yourhostname>/. You may need to wait for
 up to a minute for the server to respond - when the container starts it
