@@ -2,7 +2,7 @@ FROM ubuntu:trusty
 MAINTAINER Alan Kent
 
 # Get Apache, mysql client, PHP etc
-RUN apt-get update && apt-get install -y apache2 mysql mysql-client php5 php5-curl php5-mcrypt php5-gd php5-mysql curl git
+RUN apt-get update && apt-get install -y apache2 mysql-server mysql-client php5 php5-curl php5-mcrypt php5-gd php5-mysql curl git
 
 # mcrypt.ini appears to be missing from apt-get install. Needed for PHP mcrypt library to be enabled.
 ADD config/20-mcrypt.ini /etc/php5/cli/conf.d/20-mcrypt.ini
@@ -29,7 +29,12 @@ RUN cd /tmp && curl -O http://www.magentocommerce.com/downloads/assets/1.9.0.0/m
 
 # Install Magento CE
 RUN cd /var/www && tar -zxvf /tmp/magento-1.9.0.1.tar.gz
-RUN cd /var/www/magento && tar -zxvf /tmp/magento-sample-data-1.9.0.0.tar.gz && mysql -u root -p magento-db-instance-name < sample-data-filename.sql
+RUN rm /tmp/magento-1.9.0.1.tar.gz 
+RUN cd /tmp && tar -zxvf /tmp/magento-sample-data-1.9.0.0.tar.gz
+RUN rm /tmp/magento-sample-data-1.9.0.0.tar.gz
+RUN cp -r /tmp/magento-sample-data-1.9.0.0/media/* /var/www/magento/media
+RUN cp -r /tmp/magento-sample-data-1.9.0.0/skin/* /var/www/magento/skin
+RUN rm -rf /tmp/magento-sample-data-1.9.0.0/{media,skin}
 RUN chown www-data:www-data -R /var/www/magento
 
 # Expose the web server port
