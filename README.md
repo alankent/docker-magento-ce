@@ -18,7 +18,7 @@ Otherwise build the supplied Dockerfile and run that. The build will
 take up to 10 minutes to complete as it includes downloading the CE 
 distribution and sample data from the Magento download site.
 
-Connect to your VM using http://<yourhostname>/. You may need to wait for
+Connect to your VM using http://{yourhostname}/. You may need to wait for
 up to a minute for the server to respond - when the container starts it
 populates the database with sample data.  When you connect it will lead you
 through an installation process. The following is the minimal settings to get
@@ -51,6 +51,6 @@ inputs may be
 The last page is a survey. If you look at the bottom of the page you will see
 links to the frontend (store front) and backend (administration). Click on
 "Go to Frontend" and experiment with the site. To go to the backend later,
-on the URL use http://<yourhostname>/admin.
+on the URL use http://{yourhostname}/admin.
 
 Enjoy!
