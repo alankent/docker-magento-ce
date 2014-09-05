@@ -2,11 +2,13 @@ FROM ubuntu:trusty
 MAINTAINER Alan Kent
 
 # Get Apache, mysql client, PHP etc
-RUN apt-get update && apt-get install -y apache2 mysql-server mysql-client php5 php5-curl php5-mcrypt php5-gd php5-mysql curl git
+RUN apt-get update && apt-get install -y apache2 mysql-server mysql-client php5 php5-mhash php5-curl php5-mcrypt php5-gd php5-mysql php5-cli curl git
 
 # mcrypt.ini appears to be missing from apt-get install. Needed for PHP mcrypt library to be enabled.
 ADD config/20-mcrypt.ini /etc/php5/cli/conf.d/20-mcrypt.ini
 ADD config/20-mcrypt.ini /etc/php5/apache2/conf.d/20-mcrypt.ini
+RUN echo "memory_limit = 512M" >> /etc/php5/apache2/php.ini
+
 
 # Environment variables from /etc/apache2/apache2.conf
 ENV APACHE_RUN_USER www-data
@@ -17,7 +19,7 @@ ENV APACHE_LOCK_DIR /var/lock/apache2
 ENV APACHE_PID_FILE /var/run/apache2/apache2.pid
 
 # Enable Apache rewrite module
-#RUN a2enmod rewrite
+RUN a2enmod rewrite
 
 # Add the Apache virtual host file
 ADD config/apache_default_vhost /etc/apache2/sites-enabled/magento.conf
@@ -41,8 +43,7 @@ RUN chown www-data:www-data -R /var/www/magento
 EXPOSE 80
 
 # Start up the Apache server
-#ADD scripts/runserver /usr/local/bin/runserver
-#RUN chmod +x /usr/local/bin/runserver
-#ENTRYPOINT ["bash", "-c"]
-#CMD ["/usr/local/bin/runserver"]
-CMD ["bash"]
+ADD scripts/runserver /usr/local/bin/runserver
+RUN chmod +x /usr/local/bin/runserver
+ENTRYPOINT ["bash", "-c"]
+CMD ["/usr/local/bin/runserver"]

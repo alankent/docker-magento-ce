@@ -1,8 +1,11 @@
 #!/bin/sh
 
+set -x
+
 # Start up and populate MySQL database
-RUN mysql -u root -e 'CREATE DATABASE magento;'
-RUN mysql -u root magento < /tmp/magento-sample-data-1.9.0.0/magento_sample_data_for_1.9.0.0.sql
+/etc/init.d/mysql start
+mysql -u root -e 'CREATE DATABASE magento;'
+mysql -u root magento < /tmp/magento-sample-data-1.9.0.0/magento_sample_data_for_1.9.0.0.sql
 
 # Start up apache
 . /etc/apache2/envvars
